@@ -6,10 +6,8 @@ function convertLine(sourceCodeArray, index) {
   var inputText = sourceCodeArray[index].match(IS_INPUT_LINE);
   if (inputText) {
     // There are inputs in this line that need to be replaced
-    // Remove whitespace on either side
-    inputText[0].trim();
-    // Remove ] and turn into function
-    var parsedText = INPUT_FUNCTION_NAME + "('" + inputText[0].substr(1) + "');";
+    // Remove whitespace and ] and turn into function
+    var parsedText = INPUT_FUNCTION_NAME + "('" + inputText[0].trim().substr(1) + "');";
     var variables = parsedText.match(MATCH_VARIABLES);
     if (variables) {
       variables.forEach(function(variable) {
