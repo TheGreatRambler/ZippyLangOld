@@ -7,9 +7,9 @@ function convertLine(sourceCodeArray, index) {
   if (inputText) {
     // There are inputs in this line that need to be replaced
     // Remove whitespace on either side
-    inputText.trim();
+    inputText[0].trim();
     // Remove ] and turn into function
-    var parsedText = INPUT_FUNCTION_NAME + "('" + inputText.substr(1) + "');";
+    var parsedText = INPUT_FUNCTION_NAME + "('" + inputText[0].substr(1) + "');";
     var variables = parsedText.match(MATCH_VARIABLES);
     if (variables) {
       variables.forEach(function(variable) {
