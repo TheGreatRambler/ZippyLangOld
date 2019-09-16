@@ -11,7 +11,7 @@ function convertLine(sourceCodeArray, index) {
     var variables = parsedText.match(MATCH_VARIABLES);
     if (variables) {
       variables.forEach(function(variable) {
-        parsedText = parsedText.replace(variable, "'+variable.slice(1,-1)+'");
+        parsedText = parsedText.replace(variable, "'+" + variable.slice(1,-1) + "+'");
       });
     }
     sourceCodeArray[index] = parsedText;
