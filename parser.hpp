@@ -10,6 +10,21 @@ std::regex MATCH_VARIABLES("{[^{}]+}");
 
 // This will become the inbuilt function to add an input
 std::string INPUT_FUNCTION_NAME = "ADD_INPUT";
+std::string FOR_FUNCTION_NAME = "FOR";
+
+std::string CoverLangConstructs(std::string stringToParse) {
+  // First and only for now, FOR
+  if (stringToParse.find((FOR_FUNCTION_NAME + "(") != std::string::npos) {
+    // This is a for loop
+    int beginForLoopInternal = stringToParse.find_first_of("(");
+    int endForLoopInternal = stringToParse.find_last_of(")");
+    std::string forLoopInternal = stringToParse.substr(beginForLoopInternal, endForLoopInternal);
+    // Send one big line
+    std::string result = "for(const i=0;i<" + forLoopInternal + ";i++){";
+    return result;
+  }
+  return stringToParse;
+}
 
 std::string ConvertInputLinesIfNeeded(std::string stringToParse) {
   std::smatch matches;
@@ -43,6 +58,8 @@ std::vector<std::string> ParseScript(std::string filename) {
         // `line` is the current line
         // Now it is converted
         std::string parsedLine = ConvertInputLinesIfNeeded(line);
+        // Deal with lang contructs
+        parsedLine = CoverLangConstructs(parsedLine);
         // Add to script lines
         scriptLines.push_back(parsedLine);
     }
