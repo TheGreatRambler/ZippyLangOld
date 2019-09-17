@@ -1,8 +1,21 @@
 // A test script to show you what this will eventually do
 // Send an input
-]KEY_A;KEY_B 0;0 0;0
+]A,B 0;0 0;0
 // Blank for 5 frames
 BLANK(5)
+// Repeat 10 times
 REPEAT(10) {
-  // TODO
+  // i - 5 evaluates with each loop
+  // Starts at 0, ends at 9
+  ]NONE 0;{i - 5} 0;0
 }
+
+// Import an outside script and execute it
+IMPORT("other.zpy")
+
+// Create functions
+func jump() {
+  ]A 0;0 0;0
+}
+
+// Can use functions defined in other files
