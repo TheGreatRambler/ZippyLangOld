@@ -43,4 +43,13 @@ std::string joinVectorOfStrings(std::vector<std::string> thing, std::string deli
  }
  return result;
 }
+ 
+ inline char separator()
+{
+#ifdef _WIN32
+    return '\\';
+#else
+    return '/';
+#endif
+}
 }
