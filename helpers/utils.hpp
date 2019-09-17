@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
+#include <unistd.h>
 
 namespace UTILS {
 const std::string WHITESPACE = " \n\r\t\f\v";
@@ -51,5 +52,12 @@ std::string joinVectorOfStrings(std::vector<std::string> thing, std::string deli
 #else
     return '/';
 #endif
+}
+ 
+ std::string getcwd_string() {
+   char buff[PATH_MAX];
+   getcwd( buff, PATH_MAX );
+   std::string cwd( buff );
+   return cwd;
 }
 }
