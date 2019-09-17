@@ -44,6 +44,16 @@ void StartEvaluating(std::string fileName, std::string folder) {
   RunScript(folder + UTILS::separator() + fileName);
 }
 
+void WriteGeneratedFile(std::string fileName) {
+  std::string generatedString = UTILS::joinVectorOfStrings(generatedScript, "\n");
+  // Write file
+  std::ofstream out(currentFolder + UTILS::separator() + fileName);
+  // Write all the text at once
+    out << generatedString;
+  // Close the file
+    out.close();
+}
+
 void AddAllCFunctions() {
   // Global object
   JSValue global_obj = JS_GetGlobalObject(currentJSContext);
