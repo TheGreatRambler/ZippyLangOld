@@ -1,0 +1,8 @@
+// A test script to show you what this will eventually do
+// Send an input
+]KEY_A;KEY_B 0;0 0;0
+// Blank for 5 frames
+BLANK(5)
+REPEAT(10) {
+  // TODO
+}
