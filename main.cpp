@@ -1,4 +1,8 @@
+#include <string>
+
 #include "third_party/CLI11.hpp"
+
+#include "parser.hpp"
 
 int main(int argc, char** argv) {
     std::string description = "Zippy, a precompiling language to aid in the creation of TAS scripts";
