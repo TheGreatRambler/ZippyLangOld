@@ -1,21 +1,49 @@
 // A test script to show you what this will eventually do
+
+// Create variables
+var numOfTimes = 7;
+var nameOfScript = "bob";
+
 // Send an input
-]A,B 0;0 0;0
+// These can be put in any order...
+] A B L(0,0) R(0,0)
+] A L(0,0) B R(0,0)
+] L(0,0) B R(0,0) A
+// With any amount of spaces
+] A    B L(0,0)    R(0,0)
+] A     L(0,0) B  R(0,0)
+] L(0,0)    B R(0,0)  A
+
 // Blank for 5 frames
 BLANK(5)
+
+// Blank for random number of frames
+BLANK(RAND()*10)
+
 // Repeat 10 times
-REPEAT(10) {
+FOR(10) {
   // i - 5 evaluates with each loop
   // Starts at 0, ends at 9
-  ]NONE 0;{i - 5} 0;0
+  ] L(0,{i - 5})
+}
+
+// To specify the variable name in the loop:
+// FOR(10)[i] { ... }
+
+// Use variable in for loop
+FOR(numOfTimes) {
+  // ...
 }
 
 // Import an outside script and execute it
 IMPORT("other.zpy")
 
+// Import an outside script with a variable
+IMPORT(nameOfScript + ".zpy");
+
 // Create functions
 func jump() {
-  ]A 0;0 0;0
+  ] A
 }
 
-// Can use functions defined in other files
+// Can use functions defined in other files as well
