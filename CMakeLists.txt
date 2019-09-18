@@ -10,9 +10,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # include QuickJS
 add_subdirectory(QuickJS)
 
-# add gcc arguments to fix things
-target_compile_options(ZippyLang PUBLIC "--enable-libatomic")
-
 # glob sources to include all cpp files
 file(GLOB SOURCES
     ./*.cpp
@@ -27,3 +24,7 @@ link_directories(${CMAKE_CURRENT_SOURCE_DIR}/QuickJS)
 
 # link QuickJS to the project
 target_link_libraries(Zippy quickjs)
+
+# add gcc arguments to fix things
+# adds <atomic.h>
+target_compile_options(ZippyLang PRIVATE "--enable-libatomic")
