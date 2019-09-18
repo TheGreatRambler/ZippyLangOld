@@ -122,11 +122,11 @@
 // We nest the check for __has_include and it's usage
 #ifndef CLI11_STD_OPTIONAL
 #ifdef __has_include
-#if defined(CLI11_CPP17) && __has_include(<optional>)
-#define CLI11_STD_OPTIONAL 1
-#else
+//#if defined(CLI11_CPP17) && __has_include(<optional>)
+//#define CLI11_STD_OPTIONAL 1
+//#else
 #define CLI11_STD_OPTIONAL 0
-#endif
+//#endif
 #else
 #define CLI11_STD_OPTIONAL 0
 #endif

@@ -28,7 +28,7 @@ void RunScript(std::string filepath) {
 	// Join them together
 	std::string script = UTILS::joinVectorOfStrings(lines, "\n");
 	// Run the code in the context
-	JS_Eval(currentJSContext, script.c_str(), script.size(), filepath, JS_EVAL_TYPE_GLOBAL);
+	JS_Eval(currentJSContext, script.c_str(), script.size(), filepath.c_str(), JS_EVAL_TYPE_GLOBAL);
 }
 
 void StartEvaluating(std::string fileName, std::string folder) {
@@ -59,14 +59,14 @@ void AddAllCFunctions() {
 	JSValue global_obj = JS_GetGlobalObject(currentJSContext);
 
 	// Add all the functions
-	JSValue inputFunc = JS_NewCFunction(currentJSContext, AddLine, INPUT_NAME, 1);
-	JSValue blankFunc = JS_NewCFunction(currentJSContext, AddBlank, BLANK_NAME, 1);
-	JSValue importFunc = JS_NewCFunction(currentJSContext, ImportFile, IMPORT_NAME, 1);
+	JSValue inputFunc = JS_NewCFunction(currentJSContext, AddLine, INPUT_NAME.c_str(), 1);
+	JSValue blankFunc = JS_NewCFunction(currentJSContext, AddBlank, BLANK_NAME.c_str(), 1);
+	JSValue importFunc = JS_NewCFunction(currentJSContext, ImportFile, IMPORT_NAME.c_str(), 1);
 
 	// Add to global object
-	JS_SetPropertyStr(ctx, global_obj, INPUT_NAME, inputFunc);
-	JS_SetPropertyStr(ctx, global_obj, BLANK_NAME, blankFunc);
-	JS_SetPropertyStr(ctx, global_obj, IMPORT_NAME, importFunc);
+	JS_SetPropertyStr(currentJSContext, global_obj, INPUT_NAME.c_str(), inputFunc);
+	JS_SetPropertyStr(currentJSContext, global_obj, BLANK_NAME.c_str(), blankFunc);
+	JS_SetPropertyStr(currentJSContext, global_obj, IMPORT_NAME.c_str(), importFunc);
 }
 
 JSValue AddLine(JSContext* ctx, JSValueConst this_val, int argc, JSValueConst* argv) {
@@ -83,7 +83,7 @@ JSValue AddLine(JSContext* ctx, JSValueConst this_val, int argc, JSValueConst* a
 }
 
 JSValue AddBlank(JSContext* ctx, JSValueConst this_val, int argc, JSValueConst* argv) {
-	unsigned int timeToDelay;
+	int32_t timeToDelay;
 	JS_ToInt32(currentJSContext, &timeToDelay, argv[0]);
 	// Delay the frame that much
 	frameNum += timeToDelay;

@@ -27,14 +27,14 @@ std::string CoverLangConstructs(std::string stringToParse) {
 }
 
 std::string ConvertInputLinesIfNeeded(std::string stringToParse) {
-	std::smatch matches; 
-	if (std::regex_match(&stringToParse, matches, IS_INPUT_LINE)) {
+	std::smatch matches;
+	if (std::regex_match(stringToParse, matches, IS_INPUT_LINE)) {
 		// There is a match
 		std::string match = matches[0].str();
 		// Build string
 		std::string parsedText = INPUT_FUNCTION_NAME + "('" + UTILS::trim(match).substr(1) + "');";
 		std::smatch variableMatches;
-		if (std::regex_match(&parsedText, variableMatches, MATCH_VARIABLES)) {
+		if (std::regex_match(parsedText, variableMatches, MATCH_VARIABLES)) {
 			for (int i = 0; i < variableMatches.size(); i++) {
 				std::string thisMatch = variableMatches[i].str();
 				// Removes first and last char
