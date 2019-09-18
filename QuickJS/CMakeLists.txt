@@ -4,6 +4,7 @@ project(quickjs LANGUAGES C)
 file(STRINGS VERSION version)
 
 set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(quickjs_src quickjs.c libunicode.c libregexp.c cutils.c quickjs-libc.c)
 set(quickjs_def CONFIG_VERSION="${version}" _GNU_SOURCE)
