@@ -33,44 +33,6 @@ void RunScript(std::string filepath) {
 	JS_Eval(currentJSContext, script.c_str(), script.size(), filepath.c_str(), JS_EVAL_TYPE_GLOBAL);
 }
 
-void StartEvaluating(std::string fileName, std::string folder) {
-	// Create runtime
-	currentJSRuntime = JS_NewRuntime();
-	// Create context
-	currentJSContext = JS_NewContext(currentJSRuntime);
-	// Set current folder
-	currentFolder = folder;
-	// Add built-in functions
-	AddAllCFunctions();
-	// Start running
-	RunScript(folder + UTILS::separator() + fileName);
-}
-
-void WriteGeneratedFile(std::string fileName) {
-	std::string generatedString = UTILS::joinVectorOfStrings(generatedScript, "\n");
-	// Write file
-	std::ofstream out(currentFolder + UTILS::separator() + fileName);
-	// Write all the text at once
-	out << generatedString;
-	// Close the file
-	out.close();
-}
-
-void AddAllCFunctions() {
-	// Global object
-	JSValue global_obj = JS_GetGlobalObject(currentJSContext);
-
-	// Add all the functions
-	JSValue inputFunc = JS_NewCFunction(currentJSContext, AddLine, INPUT_NAME.c_str(), 1);
-	JSValue blankFunc = JS_NewCFunction(currentJSContext, AddBlank, BLANK_NAME.c_str(), 1);
-	JSValue importFunc = JS_NewCFunction(currentJSContext, ImportFile, IMPORT_NAME.c_str(), 1);
-
-	// Add to global object
-	JS_SetPropertyStr(currentJSContext, global_obj, INPUT_NAME.c_str(), inputFunc);
-	JS_SetPropertyStr(currentJSContext, global_obj, BLANK_NAME.c_str(), blankFunc);
-	JS_SetPropertyStr(currentJSContext, global_obj, IMPORT_NAME.c_str(), importFunc);
-}
-
 JSValue AddLine(JSContext* ctx, JSValueConst this_val, int argc, JSValueConst* argv) {
 	const char* str = JS_ToCString(currentJSContext, argv[0]);
 	std::string input = std::string(str);
@@ -101,4 +63,42 @@ JSValue ImportFile(JSContext* ctx, JSValueConst this_val, int argc, JSValueConst
 	// Should free string
 	JS_FreeCString(currentJSContext, str);
 	return JS_UNDEFINED;
+}
+
+void AddAllCFunctions() {
+	// Global object
+	JSValue global_obj = JS_GetGlobalObject(currentJSContext);
+
+	// Add all the functions
+	JSValue inputFunc = JS_NewCFunction(currentJSContext, AddLine, INPUT_NAME.c_str(), 1);
+	JSValue blankFunc = JS_NewCFunction(currentJSContext, AddBlank, BLANK_NAME.c_str(), 1);
+	JSValue importFunc = JS_NewCFunction(currentJSContext, ImportFile, IMPORT_NAME.c_str(), 1);
+
+	// Add to global object
+	JS_SetPropertyStr(currentJSContext, global_obj, INPUT_NAME.c_str(), inputFunc);
+	JS_SetPropertyStr(currentJSContext, global_obj, BLANK_NAME.c_str(), blankFunc);
+	JS_SetPropertyStr(currentJSContext, global_obj, IMPORT_NAME.c_str(), importFunc);
+}
+
+void StartEvaluating(std::string fileName, std::string folder) {
+	// Create runtime
+	currentJSRuntime = JS_NewRuntime();
+	// Create context
+	currentJSContext = JS_NewContext(currentJSRuntime);
+	// Set current folder
+	currentFolder = folder;
+	// Add built-in functions
+	AddAllCFunctions();
+	// Start running
+	RunScript(folder + UTILS::separator() + fileName);
+}
+
+void WriteGeneratedFile(std::string fileName) {
+	std::string generatedString = UTILS::joinVectorOfStrings(generatedScript, "\n");
+	// Write file
+	std::ofstream out(currentFolder + UTILS::separator() + fileName);
+	// Write all the text at once
+	out << generatedString;
+	// Close the file
+	out.close();
 }

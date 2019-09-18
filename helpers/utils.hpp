@@ -4,17 +4,18 @@
 #include <iostream>
 #include <string>
 #include <unistd.h>
+#include <vector>
 
 namespace UTILS {
 	const std::string WHITESPACE = " \n\r\t\f\v";
 
 	std::string ltrim(const std::string& s) {
-		size_t start = s.find_first_not_of(WHITESPACE);
+		size_t start = s.find_first_not_of(UTILS::WHITESPACE);
 		return (start == std::string::npos) ? "" : s.substr(start);
 	}
 
 	std::string rtrim(const std::string& s) {
-		size_t end = s.find_last_not_of(WHITESPACE);
+		size_t end = s.find_last_not_of(UTILS::WHITESPACE);
 		return (end == std::string::npos) ? "" : s.substr(0, end + 1);
 	}
 
@@ -44,7 +45,7 @@ namespace UTILS {
 		return result;
 	}
 
-	inline char separator() {
+	char separator() {
 #ifdef _WIN32
 		return '\\';
 #else

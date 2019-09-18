@@ -7,8 +7,8 @@
 
 #include "helpers/utils.hpp"
 
-std::regex IS_INPUT_LINE("\s*].+\s*");
-std::regex MATCH_VARIABLES("{[^{}]+}");
+std::regex IS_INPUT_LINE("\\s*].+\\s*", std::regex::ECMAScript);
+std::regex MATCH_VARIABLES("{[^{}]+}", std::regex::ECMAScript);
 
 // This will become the inbuilt function to add an input
 std::string INPUT_FUNCTION_NAME = "ADD_INPUT";
