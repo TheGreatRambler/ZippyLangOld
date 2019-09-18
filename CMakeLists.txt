@@ -4,6 +4,12 @@
 cmake_minimum_required (VERSION 2.8.11)
 project (ZippyLang)
 
+# glob sources to include all cpp files
+file(GLOB SOURCES
+    ./*.cpp
+    ./QuickJS/*.c
+)
+
 # Create a library called "Hello" which includes the source file "hello.cxx".
 # The extension is already found. Any number of sources could be listed here.
-add_executable (Zippy main.cpp)
+add_executable (Zippy ${SOURCES})
