@@ -7,7 +7,7 @@ project (ZippyLang)
 # glob sources to include all cpp files
 file(GLOB SOURCES
     ./*.cpp
-    ./QuickJS/*.c
+    ./QuickJS/*.cpp
 )
 
 # Create a library called "Hello" which includes the source file "hello.cxx".
