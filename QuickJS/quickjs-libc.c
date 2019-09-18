@@ -58,6 +58,10 @@ static void js_std_dbuf_init(JSContext *ctx, DynBuf *s)
     dbuf_init2(s, JS_GetRuntime(ctx), (DynBufReallocFunc *)js_realloc_rt);
 }
 
+#if (defined(_WIN32) || defined(__WIN32__))
+#define mkdir(A, B) mkdir(A)
+#endif
+
 /* TODO:
    - add exec() wrapper
    - add minimal VT100 emulation for win32
@@ -2067,9 +2071,10 @@ static JSValue js_os_stat(JSContext *ctx, JSValueConst this_val,
         JS_DefinePropertyValueStr(ctx, obj, "size",
                                   JS_NewInt64(ctx, st.st_size),
                                   JS_PROP_C_W_E);
-        JS_DefinePropertyValueStr(ctx, obj, "blocks",
+		// Not supported right now
+        /*JS_DefinePropertyValueStr(ctx, obj, "blocks",
                                   JS_NewInt64(ctx, st.st_blocks),
-                                  JS_PROP_C_W_E);
+                                  JS_PROP_C_W_E);*/
 #if defined(__APPLE__)
         JS_DefinePropertyValueStr(ctx, obj, "atime",
                                   JS_NewInt64(ctx, timespec_to_ms(&st.st_atimespec)),
@@ -2081,6 +2086,7 @@ static JSValue js_os_stat(JSContext *ctx, JSValueConst this_val,
                                   JS_NewInt64(ctx, timespec_to_ms(&st.st_ctimespec)),
                                   JS_PROP_C_W_E);
 #else
+/* Not working right now
         JS_DefinePropertyValueStr(ctx, obj, "atime",
                                   JS_NewInt64(ctx, timespec_to_ms(&st.st_atim)),
                                   JS_PROP_C_W_E);
@@ -2089,7 +2095,7 @@ static JSValue js_os_stat(JSContext *ctx, JSValueConst this_val,
                                   JS_PROP_C_W_E);
         JS_DefinePropertyValueStr(ctx, obj, "ctime",
                                   JS_NewInt64(ctx, timespec_to_ms(&st.st_ctim)),
-                                  JS_PROP_C_W_E);
+                                  JS_PROP_C_W_E); */
 #endif
     }
     return make_obj_error(ctx, obj, err);
@@ -2268,10 +2274,12 @@ static const JSCFunctionListEntry js_os_funcs[] = {
     OS_FLAG(S_IFDIR),
     OS_FLAG(S_IFBLK),
     OS_FLAG(S_IFREG),
+	/* Not supported on windows
     OS_FLAG(S_IFSOCK),
     OS_FLAG(S_IFLNK),
     OS_FLAG(S_ISGID),
     OS_FLAG(S_ISUID),
+	*/
     JS_CFUNC_DEF("symlink", 2, js_os_symlink ),
     JS_CFUNC_DEF("readlink", 1, js_os_readlink ),
     JS_CFUNC_DEF("readdir", 1, js_os_readdir ),
