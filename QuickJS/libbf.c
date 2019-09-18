@@ -41,7 +41,11 @@
 #define USE_FFT_MUL
 
 //#define inline __attribute__((always_inline))
+#if defined(_MSC_VER)
+#define unused /* */
+#else
 #define unused __attribute__((unused))
+#endif
 
 #ifdef __AVX2__
 #define FFT_MUL_THRESHOLD 100 /* in limbs of the smallest factor */

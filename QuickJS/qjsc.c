@@ -324,7 +324,6 @@ static const char main_c_template2[] =
 #define PROG_NAME "qjsc"
 #endif
 
-/* Isnt working for now
 void help(void)
 {
     printf("QuickJS Compiler version " CONFIG_VERSION "\n"
@@ -355,12 +354,6 @@ void help(void)
 #endif
     exit(1);
 }
-
-*/
-
-void help(void) {
-	printf("Nope");
-};
 
 #if defined(CONFIG_CC) && !defined(_WIN32)
 

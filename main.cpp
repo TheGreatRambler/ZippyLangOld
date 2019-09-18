@@ -3,6 +3,11 @@
 #include "helpers/utils.hpp"
 
 #include "third_party/CLI11.hpp"
+extern "C" {
+// This is needed to use QuickJS with the program
+#include "quickjs/quickjs-libc.h"
+#include "quickjs/quickjs.h"
+}
 
 #include "runScript.hpp"
 
