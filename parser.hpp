@@ -7,8 +7,9 @@
 
 #include "helpers/utils.hpp"
 
-std::regex IS_INPUT_LINE("\\s*].+\\s*", std::regex::ECMAScript);
-std::regex MATCH_VARIABLES("{[^{}]+}", std::regex::ECMAScript);
+// Basic might work
+std::regex IS_INPUT_LINE("\\s*\\].+\\s*", std::regex::basic);
+std::regex MATCH_VARIABLES("{[^{}]+}", std::regex::basic);
 
 // This will become the inbuilt function to add an input
 std::string INPUT_FUNCTION_NAME = "ADD_INPUT";
@@ -20,7 +21,7 @@ std::string CoverLangConstructs(std::string stringToParse) {
 		// This is a for loop
 		int beginForLoopInternal = stringToParse.find_first_of("(");
 		int endForLoopInternal = stringToParse.find_last_of(")");
-		std::string forLoopInternal = stringToParse.substr(beginForLoopInternal, endForLoopInternal);
+		std::string forLoopInternal = stringToParse.substr(beginForLoopInternal + 1, endForLoopInternal - beginForLoopInternal);
 		// Send one big line
 		std::string result = "for(const i=0;i<" + forLoopInternal + ";i++){";
 		return result;
@@ -29,20 +30,19 @@ std::string CoverLangConstructs(std::string stringToParse) {
 }
 
 std::string ConvertInputLinesIfNeeded(std::string stringToParse) {
-	std::smatch matches;
-	if (std::regex_match(stringToParse, matches, IS_INPUT_LINE)) {
+	std::smatch returnedMatch;
+	if (std::regex_search(stringToParse, returnedMatch, IS_INPUT_LINE)) {
 		// There is a match
-		std::string match = matches[0].str();
+		std::string match = returnedMatch.str();
 		// Build string
 		std::string parsedText = INPUT_FUNCTION_NAME + "('" + UTILS::trim(match).substr(1) + "');";
-		std::smatch variableMatches;
-		if (std::regex_match(parsedText, variableMatches, MATCH_VARIABLES)) {
-			for (int i = 0; i < variableMatches.size(); i++) {
-				std::string thisMatch = variableMatches[i].str();
-				// Removes first and last char
-				UTILS::replace(parsedText, thisMatch, "'+" + thisMatch.substr(1, thisMatch.size() - 2) + "+'");
-			}
+		std::smatch variableMatch;
+		while (std::regex_match(parsedText, variableMatch, MATCH_VARIABLES)) {
+			std::string thisMatch = variableMatch.str();
+			// Removes first and last char
+			UTILS::replace(parsedText, thisMatch, "'+" + thisMatch.substr(1, thisMatch.size() - 2) + "+'");
 		}
+
 		return parsedText;
 	}
 	// This is not an input line

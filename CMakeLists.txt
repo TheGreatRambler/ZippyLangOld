@@ -27,4 +27,4 @@ target_link_libraries(Zippy quickjs)
 
 # add gcc arguments to fix things
 # adds <atomic.h>
-target_compile_options(ZippyLang PRIVATE "--enable-libatomic")
+# target_compile_options(Zippy PRIVATE "--enable-libatomic --enable-threads=posix")

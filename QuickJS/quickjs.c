@@ -22,7 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#include <atomic>
+#include <stdatomic.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdarg.h>
@@ -49936,47 +49936,47 @@ static JSValue js_atomics_op(JSContext *ctx,
         a = func_name((_Atomic(uint32_t) *)ptr, v);     \
         break;
 #endif
-        OP(ADD, std::atomic_fetch_add)
-        OP(AND, std::atomic_fetch_and)
-        OP(OR, std::atomic_fetch_or)
-        OP(SUB, std::atomic_fetch_sub)
-        OP(XOR, std::atomic_fetch_xor)
-        OP(EXCHANGE, std::atomic_exchange)
+        OP(ADD, atomic_fetch_add)
+        OP(AND, atomic_fetch_and)
+        OP(OR, atomic_fetch_or)
+        OP(SUB, atomic_fetch_sub)
+        OP(XOR, atomic_fetch_xor)
+        OP(EXCHANGE, atomic_exchange)
 #undef OP
 
     case ATOMICS_OP_LOAD | (0 << 3):
-        a = std::atomic_load((_Atomic(uint8_t) *)ptr);
+        a = atomic_load((_Atomic(uint8_t) *)ptr);
         break;
     case ATOMICS_OP_LOAD | (1 << 3):
-        a = std::atomic_load((_Atomic(uint16_t) *)ptr);
+        a = atomic_load((_Atomic(uint16_t) *)ptr);
         break;
     case ATOMICS_OP_LOAD | (2 << 3):
-        a = std::atomic_load((_Atomic(uint32_t) *)ptr);
+        a = atomic_load((_Atomic(uint32_t) *)ptr);
         break;
 #ifdef CONFIG_BIGNUM
     case ATOMICS_OP_LOAD | (3 << 3):
-        a = std::atomic_load((_Atomic(uint64_t) *)ptr);
+        a = atomic_load((_Atomic(uint64_t) *)ptr);
         break;
 #endif
         
     case ATOMICS_OP_COMPARE_EXCHANGE | (0 << 3):
         {
             uint8_t v1 = v;
-            std::atomic_compare_exchange_strong((_Atomic(uint8_t) *)ptr, &v1, rep_val);
+            atomic_compare_exchange_strong((_Atomic(uint8_t) *)ptr, &v1, rep_val);
             a = v1;
         }
         break;
     case ATOMICS_OP_COMPARE_EXCHANGE | (1 << 3):
         {
             uint16_t v1 = v;
-            std::atomic_compare_exchange_strong((_Atomic(uint16_t) *)ptr, &v1, rep_val);
+            atomic_compare_exchange_strong((_Atomic(uint16_t) *)ptr, &v1, rep_val);
             a = v1;
         }
         break;
     case ATOMICS_OP_COMPARE_EXCHANGE | (2 << 3):
         {
             uint32_t v1 = v;
-            std::atomic_compare_exchange_strong((_Atomic(uint32_t) *)ptr, &v1, rep_val);
+            atomic_compare_exchange_strong((_Atomic(uint32_t) *)ptr, &v1, rep_val);
             a = v1;
         }
         break;
@@ -49984,7 +49984,7 @@ static JSValue js_atomics_op(JSContext *ctx,
     case ATOMICS_OP_COMPARE_EXCHANGE | (3 << 3):
         {
             uint64_t v1 = v;
-            std::atomic_compare_exchange_strong((_Atomic(uint64_t) *)ptr, &v1, rep_val);
+            atomic_compare_exchange_strong((_Atomic(uint64_t) *)ptr, &v1, rep_val);
             a = v1;
         }
         break;
@@ -50048,7 +50048,7 @@ static JSValue js_atomics_store(JSContext *ctx,
             JS_FreeValue(ctx, ret);
             return JS_EXCEPTION;
         }
-        std::atomic_store((_Atomic(uint64_t) *)ptr, v64);
+        atomic_store((_Atomic(uint64_t) *)ptr, v64);
     } else
 #endif
     {
@@ -50063,13 +50063,13 @@ static JSValue js_atomics_store(JSContext *ctx,
         }
         switch(size_log2) {
         case 0:
-            std::atomic_store((_Atomic(uint8_t) *)ptr, v);
+            atomic_store((_Atomic(uint8_t) *)ptr, v);
             break;
         case 1:
-            std::atomic_store((_Atomic(uint16_t) *)ptr, v);
+            atomic_store((_Atomic(uint16_t) *)ptr, v);
             break;
         case 2:
-            std::atomic_store((_Atomic(uint32_t) *)ptr, v);
+            atomic_store((_Atomic(uint32_t) *)ptr, v);
             break;
         default:
             abort();

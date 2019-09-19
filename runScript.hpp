@@ -29,6 +29,7 @@ void RunScript(std::string filepath) {
 	// Parsed lines will now be executed
 	// Join them together
 	std::string script = UTILS::joinVectorOfStrings(lines, "\n");
+	std::cout << script;
 	// Run the code in the context
 	JS_Eval(currentJSContext, script.c_str(), script.size(), filepath.c_str(), JS_EVAL_TYPE_GLOBAL);
 }
@@ -89,8 +90,15 @@ void StartEvaluating(std::string fileName, std::string folder) {
 	currentFolder = folder;
 	// Add built-in functions
 	AddAllCFunctions();
+	/* system modules */
+	js_init_module_std(currentJSContext, "std");
+	js_init_module_os(currentJSContext, "os");
 	// Start running
 	RunScript(folder + UTILS::separator() + fileName);
+
+	js_std_loop(currentJSContext);
+
+	js_std_free_handlers(currentJSRuntime);
 }
 
 void WriteGeneratedFile(std::string fileName) {
